@@ -34,4 +34,3 @@ function handTsconfig() {
 }
 handWebpack()
 handTsconfig()
-// ren build did

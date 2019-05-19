@@ -1,1 +1,3 @@
-export const s = 6
+import './reset.css'
+import './common.css'
+import './style.css'

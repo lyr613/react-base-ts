@@ -16,20 +16,17 @@ function clearDid() {
 	})
 }
 console.log(' -> 清空上次遗留')
-
 removeDir('build')
 removeDir(src)
 
 console.log('清空上次遗留 -> 打包')
-
 os.execSync('yarn build')
 
 console.log('打包 -> 重命名')
-
 os.execSync('ren build did')
 
 console.log('重命名 -> 清理无用文件')
-
 clearDid()
 
 console.log('完毕')
+// ren build did
