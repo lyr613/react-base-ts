@@ -88,6 +88,7 @@ class Time {
 					break
 			}
 		})
+		return this
 	}
 	/**
 	 * 拷贝一份自己, 返回一个同时间的对象

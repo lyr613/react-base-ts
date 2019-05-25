@@ -4,7 +4,7 @@ import {catchError, map} from 'rxjs/operators'
 import {of} from 'rxjs'
 
 type method = 'post' | 'get' | 'put' | 'delete'
-export function SoftAjax(url: string, method: method = 'post', body = {}) {
+export function SoftAjax(url: string, body = {}, method: method = 'post') {
 	return ajax({
 		url: ServerBaseurl + url,
 		method,
