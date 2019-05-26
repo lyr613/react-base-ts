@@ -1,5 +1,5 @@
-import {BehaviorSubject, fromEvent} from 'rxjs'
-import {throttleTime, mapTo, map, debounceTime} from 'rxjs/operators'
+import {BehaviorSubject, fromEvent, timer} from 'rxjs'
+import {throttleTime, mapTo, map, debounceTime, pluck, tap, switchMap, take} from 'rxjs/operators'
 
 interface t {
 	/** 屏幕可用宽度 */
@@ -28,6 +28,8 @@ function get_screen() {
 function get_it(): t {
 	const [W, H] = [window.innerWidth, window.innerHeight]
 	const screen = get_screen()
+	console.log(H)
+
 	return {
 		W,
 		H,
@@ -42,11 +44,11 @@ function get_it(): t {
  * @returns screen_level  2: 1366及以下, 3: 1920及以下
  * @returns screen_type 竖屏还是横屏
  */
-export const Screen$ = new BehaviorSubject(get_it())
+export const ScreenSize$ = new BehaviorSubject(get_it())
 
 fromEvent(window, 'resize')
 	.pipe(
 		debounceTime(300),
 		map(() => get_it()),
 	)
-	.subscribe(Screen$)
+	.subscribe(ScreenSize$)
