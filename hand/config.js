@@ -68,6 +68,9 @@ function handTslint() {
 	// 关闭检查未使用变量
 	function noUse() {
 		const i = arr.findIndex(v => v.match('@typescript-eslint/no-unused-vars'))
+		if (arr[i].match('//')) {
+			return
+		}
 		if (i > 0) {
 			const i2 = i + arr.slice(i).findIndex(v => v.match(']')) + 1
 			arr.slice(i, i2).forEach((v, j) => {
