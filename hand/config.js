@@ -6,7 +6,7 @@ const fs = require('fs')
 /** webpack识别@ 引用 */
 function handWebpack() {
 	const p = path.resolve('./', 'node_modules', 'react-scripts', 'config', 'webpack.config.js')
-	console.log(p)
+	// console.log(p)
 	const old = fs.readFileSync(p).toString()
 	const arr = old.split(/\n/)
 	const need = arr.every(v => !v.match(/'@'/))
@@ -22,7 +22,7 @@ function handWebpack() {
 /** tsconfig @ 引用 */
 function handTsconfig() {
 	const p = path.resolve('./', 'node_modules', 'react-scripts', 'scripts', 'utils', 'verifyTypeScriptSetup.js')
-	console.log(p)
+	// console.log(p)
 	const old = fs.readFileSync(p).toString()
 	const arr = old.split(/\n/)
 	function baseurl() {
@@ -58,6 +58,7 @@ function handJest() {
 	}
 	const re = arr.join('\n')
 	fs.writeFileSync(p, re)
+	console.log('jest替换完成')
 }
 
 /** tslint  */
@@ -81,6 +82,7 @@ function handTslint() {
 	noUse()
 	const re = arr.join('\n')
 	fs.writeFileSync(p, re)
+	console.log('tslint替换完成')
 }
 handWebpack()
 handTsconfig()
