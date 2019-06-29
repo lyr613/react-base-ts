@@ -1,101 +1,113 @@
-function full(s: Number): string {
+function full(s: number): string {
 	return String(s).padStart(2, '0')
 }
+
+export const Formats = {
+	YMD: '{Y4}-{M2}-{D2}',
+	hds: '{h}:{m}:{s}',
+	YMDhds: '{Y4}-{M2}-{D2} {h}:{m}:{s}',
+	YMDhds2: '{Y4}年{M2}月{D2}日 {h}时{m}分{s}秒',
+	xq: '星期{W}',
+}
 class Time {
-	/** 时间对象  */
-	private dt: Date
-	Y!: string
-	M!: string
-	D!: string
-	h!: string
-	m!: string
-	s!: string
-	w!: number
-	/** 到毫秒的时间戳 */
-	int: number = 0
-	constructor(a?: any) {
-		this.dt = a ? new Date(a) : new Date()
-		this.Y = full(this.dt.getFullYear())
-		this.M = full(this.dt.getMonth() + 1)
-		this.D = full(this.dt.getDate())
-		this.h = full(this.dt.getHours())
-		this.m = full(this.dt.getMinutes())
-		this.s = full(this.dt.getSeconds())
-		this.int = this.dt.getTime()
-		this.w = this.dt.getDay()
-	}
-	static of(a?: any) {
-		return new Time(a)
+	_!: Date
+	constructor() {
+		this._ = new Date()
 	}
 	/**
-	 * 格式化, 无参数时返回YYYY年MM月DD日 hh时mm分ss秒
-	 * @param b0 连接年月日的符号
-	 * @param b1 连接时分秒的符号
-	 * @param use 只用date或time
+	 *
+	 * @param funcs 目前只有change函数
 	 */
-	public format(b0?: string, b1?: string, use?: 'date' | 'time'): string {
-		const {Y, M, D, h, m, s} = this
-		let [a, b] = ['', '']
-		/** 没有连接符 */
-		if (b0 === undefined) {
-			a = `${Y}年${M}月${D}日`
-			b = `${h}时${m}分${s}秒`
-		} else {
-			b1 = b1 || b0
-			a = [Y, M, D].join(b0)
-			b = [h, m, s].join(b1)
+	pipe(...funcs: Function[]) {
+		let re = new Date(this._)
+		for (let i = 0; i < funcs.length; i++) {
+			const func = funcs[i]
+			re = func(re)
 		}
-		if (use === 'date') {
-			return a
-		}
-		if (use === 'time') {
-			return b
-		}
-		return a + ' ' + b
+		return TimeOf(re)
 	}
 	/**
-	 * name
+	 * @param {string} fmt
 	 */
-	get week() {
-		const w = this.dt.getDay()
-		const ws = '日一二三四五六'
-		return ws[w]
-	}
-	/** 变化推断 比如['Y', -1] 则向前一年, ['D']会把日归零 */
-	public change(cs: [string, number | undefined][]) {
-		cs.forEach(c => {
-			const [w, d] = c
-			switch (w) {
-				case 'Y':
-					this.dt.setFullYear(d ? this.dt.getFullYear() + d : 0)
-					break
-				case 'M':
-					this.dt.setMonth(d ? this.dt.getMonth() + d : 0)
-					break
-				case 'D':
-					this.dt.setDate(d ? this.dt.getDate() + d : 0)
-					break
-				case 'h':
-					this.dt.setHours(d ? this.dt.getHours() + d : 0)
-					break
-				case 'm':
-					this.dt.setMinutes(d ? this.dt.getMinutes() + d : 0)
-					break
-				case 's':
-					this.dt.setSeconds(d ? this.dt.getSeconds() + d : 0)
-					break
-				default:
-					break
-			}
-		})
-		return this
-	}
-	/**
-	 * 拷贝一份自己, 返回一个同时间的对象
-	 */
-	public copy() {
-		return Time.of(this.dt)
+	format(fmt?: string) {
+		const {_} = this
+		if (!fmt) {
+			return _.getTime()
+		}
+		const Y4 = this._.getFullYear() + ''
+		const Y2 = Y4.slice(2, 9)
+		const M = this._.getMonth() + 1
+		const M2 = full(M)
+		const D = this._.getDate()
+		const D2 = full(D)
+		const h = this._.getHours()
+		const h2 = full(h)
+		const m = this._.getMinutes()
+		const m2 = full(m)
+		const s = this._.getSeconds()
+		const s2 = full(s)
+		// 星期
+		const w = this._.getDay()
+		const W = '日一二三四五六'[w]
+
+		return fmt
+			.replace('{Y4}', Y4)
+			.replace('{Y2}', Y2)
+			.replace('{M}', M + '')
+			.replace('{M2}', M2)
+			.replace('{D}', D + '')
+			.replace('{D2}', D2)
+			.replace('{h}', h + '')
+			.replace('{h2}', h2)
+			.replace('{m}', m + '')
+			.replace('{m2}', m2)
+			.replace('{s}', s + '')
+			.replace('{s2}', s2)
+			.replace('{w}', w + '')
+			.replace('{W}', W)
 	}
 }
 
-export {Time}
+type change_key = 'Y' | 'M' | 'D' | 'h' | 'm' | 's'
+/**
+ *
+ * @param  key 变化什么, Y M D h m s
+ * @param  value 值
+ * @param   be_change 是变化还是覆盖
+ */
+function change(key: change_key, value: number, be_change = true) {
+	return (_: Date) => {
+		const __ = new Date(_)
+		switch (key) {
+			case 'Y':
+				__.setFullYear(be_change ? __.getFullYear() + value : value)
+				break
+			case 'M':
+				__.setMonth(be_change ? __.getMonth() + value : value)
+				break
+			case 'D':
+				__.setDate(be_change ? __.getDate() + value : value)
+				break
+			case 'h':
+				__.setHours(be_change ? __.getHours() + value : value)
+				break
+			case 'm':
+				__.setMinutes(be_change ? __.getMinutes() + value : value)
+				break
+			case 's':
+				__.setSeconds(be_change ? __.getSeconds() + value : value)
+				break
+			default:
+				break
+		}
+		return __
+	}
+}
+
+export function TimeOf(some?: any) {
+	const t = new Time()
+	if (some) {
+		t._ = new Date(some)
+	}
+	return t
+}
