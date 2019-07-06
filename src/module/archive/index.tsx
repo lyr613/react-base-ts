@@ -1,13 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import s from './s.module.scss'
+import {of} from 'rxjs'
+import {mergeScan} from 'rxjs/operators'
 
 export function Archive() {
-	const r = (Math.random() * 255) | 0
-	const g = (Math.random() * 255) | 0
-	const b = (Math.random() * 255) | 0
-	return (
-		<section className={s.B} style={{height: '100vh', backgroundColor: `rgb(${r},${g},${b})`}}>
-			{}
-		</section>
-	)
+	return <section className={s.B}>{}</section>
 }
