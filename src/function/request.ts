@@ -1,7 +1,7 @@
-import {ServerBaseurl} from '@/const'
-import {ajax} from 'rxjs/ajax'
-import {catchError, map} from 'rxjs/operators'
-import {of} from 'rxjs'
+import { ServerBaseurl } from '@/const'
+import { ajax } from 'rxjs/ajax'
+import { catchError, map } from 'rxjs/operators'
+import { of } from 'rxjs'
 
 type method = 'post' | 'get' | 'put' | 'delete'
 type body = {
