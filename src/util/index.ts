@@ -1,1 +1,1 @@
-export * from './time'
+export const util = null
