@@ -1,5 +1,5 @@
-import {BehaviorSubject, fromEvent, timer} from 'rxjs'
-import {throttleTime, mapTo, map, debounceTime, pluck, tap, switchMap, take} from 'rxjs/operators'
+import { BehaviorSubject, fromEvent, timer } from 'rxjs'
+import { throttleTime, mapTo, map, debounceTime, pluck, tap, switchMap, take } from 'rxjs/operators'
 
 interface t {
 	/** 屏幕可用宽度 */
@@ -28,7 +28,7 @@ function get_screen() {
 function get_it(): t {
 	const [W, H] = [window.innerWidth, window.innerHeight]
 	const screen = get_screen()
-	console.log(H)
+	// console.log(H)
 
 	return {
 		W,
