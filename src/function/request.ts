@@ -1,4 +1,4 @@
-import { ServerBaseurl } from '@/const'
+import { BaseUrl } from '@/const'
 import { ajax } from 'rxjs/ajax'
 import { catchError, map } from 'rxjs/operators'
 import { of } from 'rxjs'
@@ -9,7 +9,7 @@ type body = {
 }
 export function RxAjax(url: string, method: method = 'post', body?: body) {
 	return ajax({
-		url: ServerBaseurl + url,
+		url: BaseUrl + url,
 		method,
 		headers: {
 			'Content-Type': 'application/json',
