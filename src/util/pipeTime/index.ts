@@ -1,3 +1,3 @@
 export { TimeOf } from './src'
-export { Change } from './src/pipe'
-export { Format, CommonFormats } from './src/subscribe'
+export * from './src/pipe'
+export * from './src/subscribe'
