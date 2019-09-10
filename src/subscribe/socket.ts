@@ -1,31 +1,74 @@
-import {webSocket, WebSocketSubject} from 'rxjs/webSocket'
-import {WsBaseurl} from '@/const'
-import {interval, timer, of} from 'rxjs'
-import {filter, catchError} from 'rxjs/operators'
-
+import { webSocket, WebSocketSubject } from 'rxjs/webSocket'
+import { BaseWsUrl } from '@/const'
+import { interval, timer, of, Subject, ReplaySubject } from 'rxjs'
+import { filter, catchError, tap, map, switchMap, mapTo, exhaustMap, switchMapTo } from 'rxjs/operators'
 class obj {
 	[k: string]: any
 }
+class SocketDto {
+	[k: string]: any
+}
 
-const subj = webSocket({
-	url: 'ws://localhost:9000/sss1',
-	deserializer(v): obj {
-		const d = v.data
-		if (typeof d === 'string') {
-			return {}
-		}
-		return v.data
-	},
-})
-const Socket$ = subj.pipe()
+/** 上传使用此subj */
+export const SocketSend$ = new ReplaySubject<WebSocketSubject<obj>>(1)
 
-timer(1000, 1000).subscribe(() => {
-	subj.next({type: 'heart'})
-})
+/** 每20s自动重试连接的socket */
+const subj$ = timer(0, 1000 * 20).pipe(
+	map(() => (Math.random() * 999999) | 0),
+	exhaustMap(s => {
+		const ws = webSocket({
+			url: BaseWsUrl + s,
+			deserializer(v): obj {
+				if (v == null) {
+					return {}
+				}
+				try {
+					return JSON.parse(v.data)
+				} catch (error) {
+					return {}
+				}
+			},
+		})
+		ws.subscribe(undefined, err => {
+			console.log('socket断开连接')
+			ws.complete()
+		})
+		SocketSend$.next(ws)
+		return ws.pipe(catchError(err => of(err)))
+	}),
+)
 
-// const ob1 = Socket$.subscribe(v => {
-//     console.log(v)
-// })
-const ob2 = Socket$.subscribe(v => {
-	console.log(v)
-})
+/** 接收使用此subj */
+export const Socket$ = new Subject<SocketDto>()
+subj$
+	.pipe(
+		filter(v => {
+			if (typeof v !== 'object') {
+				return false
+			}
+			if (Object.entries(v).length === 0) {
+				return false
+			}
+			if (v.memberTrend === undefined) {
+				return false
+			}
+			return true
+		}),
+		tap(v => {
+			// console.log('socket传来消息')
+			// console.log(v)
+		}),
+	)
+	.subscribe(Socket$)
+
+// 心跳
+timer(1000, 1000 * 60 * 5)
+	.pipe(
+		switchMap(() => SocketSend$),
+		filter(v => !!v),
+	)
+	.subscribe(subj => {
+		subj.next({
+			heart: 2,
+		})
+	})
