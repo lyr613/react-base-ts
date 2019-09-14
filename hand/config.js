@@ -1,22 +1,19 @@
 const path = require('path')
 const fs = require('fs')
+const { GetOldTextArr, WriteNewTextArr } = require('./util')
 
 // 适用react@16.8.6
 
 /** webpack识别@ 引用 */
 function handWebpack() {
-	const p = path.resolve('./', 'node_modules', 'react-scripts', 'config', 'webpack.config.js')
-	// console.log(p)
-	const old = fs.readFileSync(p).toString()
-	const arr = old.split(/\n/)
+	const src = path.resolve('./', 'node_modules', 'react-scripts', 'config', 'webpack.config.js')
+	const arr = GetOldTextArr(src)
 	const need = arr.every(v => !v.match(/'@'/))
 	if (need) {
 		const i = arr.findIndex(v => v.match('alias:'))
 		arr.splice(i + 1, 0, `'@': path.resolve('./', 'src'),`)
 	}
-	const re = arr.join('\n')
-	fs.writeFileSync(p, re)
-
+	WriteNewTextArr(src, arr)
 	console.log('webpack替换完成')
 }
 /** tsconfig @ 引用 */
@@ -63,9 +60,11 @@ function handJest() {
 
 /** tslint  */
 function handTslint() {
-	const p = path.resolve('./', 'node_modules', 'eslint-config-react-app', 'index.js')
-	const old = fs.readFileSync(p).toString()
-	const arr = old.split(/\n/)
+	const src = path.resolve('./', 'node_modules', 'eslint-config-react-app', 'index.js')
+	const arr = GetOldTextArr(src)
+	noUse()
+	WriteNewTextArr(src, arr)
+	console.log('tslint替换完成')
 	// 关闭检查未使用变量
 	function noUse() {
 		const i = arr.findIndex(v => v.match('@typescript-eslint/no-unused-vars'))
@@ -79,10 +78,6 @@ function handTslint() {
 			})
 		}
 	}
-	noUse()
-	const re = arr.join('\n')
-	fs.writeFileSync(p, re)
-	console.log('tslint替换完成')
 }
 handWebpack()
 handTsconfig()
