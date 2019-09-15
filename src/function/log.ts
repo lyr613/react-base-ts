@@ -8,6 +8,7 @@ export function LogReport(somes: any) {
         somes.forEach((some) => {
             if (typeof some === 'object') {
                 try {
+
                     console.table(some)
                 } catch (error) {
                     console.log(some)
