@@ -1,5 +1,5 @@
 /** effect 在控制台打印 */
-export function LogReport(somes: any) {
+export function LogReport(...somes: any[]) {
     if (process.env.NODE_ENV === 'production') {
         return
     }
