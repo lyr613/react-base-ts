@@ -12,10 +12,14 @@ export default function Example() {
         },
     )
     const [did_select, set_did_select] = useState(-1)
+    useEffect(() => {
+        // 相当于 vue mounted + watch
+        // ajax...
+    }, [])
 
     return (
         <div className={s.Example}>
-            {arr.map((n, i) =>
+            {arr.map((str, i) =>
                 i % 2 === 0 ? (
                     <div
                         className={s.line + ' ' + (did_select === i ? s.sel : '')}
@@ -23,10 +27,18 @@ export default function Example() {
                             set_did_select(i)
                         }}
                     >
-                        {n}
+                        <Comp s={str} />
                     </div>
                 ) : null,
             )}
         </div>
     )
+}
+
+interface pp {
+    s: string
+}
+function Comp(p: pp) {
+    const str = p.s + '...'
+    return <div className={s.Comp}>{str}</div>
 }
