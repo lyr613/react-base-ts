@@ -1,0 +1,11 @@
+.Example {
+    margin: 20px;
+    .line {
+        line-height: 40px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .sel {
+        color: red;
+    }
+}

@@ -8,8 +8,25 @@ export default function Example() {
             length: 12,
         },
         (_, i) => {
-            return i
+            return `第${i + 1}个`
         },
     )
-    return <div className={s.Example}>{arr.map((n, _) => (n % 2 === 0 ? <div>{n}</div> : null))}</div>
+    const [did_select, set_did_select] = useState(-1)
+
+    return (
+        <div className={s.Example}>
+            {arr.map((n, i) =>
+                i % 2 === 0 ? (
+                    <div
+                        className={s.line + ' ' + (did_select === i ? s.sel : '')}
+                        onClick={() => {
+                            set_did_select(i)
+                        }}
+                    >
+                        {n}
+                    </div>
+                ) : null,
+            )}
+        </div>
+    )
 }
