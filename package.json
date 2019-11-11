@@ -24,7 +24,7 @@
         "typescript": "3.4.5"
     },
     "scripts": {
-        "opt": "node .\\script\\config.js",
+        "opt": "node script/config.js",
         "serve": "yarn opt && react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
