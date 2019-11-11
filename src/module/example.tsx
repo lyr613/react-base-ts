@@ -26,6 +26,7 @@ export default function Example() {
                 i % 2 === 0 ? (
                     <div
                         className={s.line + ' ' + (did_select === i ? s.sel : '')}
+                        key={i}
                         onClick={() => {
                             set_did_select(i)
                         }}
