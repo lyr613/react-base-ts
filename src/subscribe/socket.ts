@@ -14,6 +14,7 @@ export const SocketSend$ = new ReplaySubject<WebSocketSubject<obj>>(1)
 
 /** 每20s自动重试连接的socket */
 const subj$ = timer(0, 1000 * 20).pipe(
+    filter((n) => n < 0), // 加此行则永远无法发出请求
     map(() => (Math.random() * 999999) | 0),
     exhaustMap((s) => {
         const ws = webSocket({
