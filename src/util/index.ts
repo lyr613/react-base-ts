@@ -1,1 +1,1 @@
-export * from './pipeTime'
+export const util = null
