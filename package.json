@@ -24,8 +24,8 @@
         "typescript": "3.4.5"
     },
     "scripts": {
-        "reset-config": "node script/config.js",
-        "serve": "yarn opt && react-scripts start",
+        "reset-config": "node script/reset-config.js",
+        "serve": "yarn reset-config && react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
