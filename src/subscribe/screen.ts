@@ -22,6 +22,6 @@ export const ScreenScroll$: Observable<[number, number]> = fromEvent(window, 'sc
     scan((p, v) => {
         const [_, nt] = v
         const [a, pt] = p
-        return [nt - pt, nt]
+        return [nt - pt, nt] as [number, number]
     }),
 )

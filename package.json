@@ -21,7 +21,7 @@
         "react-scripts": "3.0.1",
         "rxjs": "^6.5.2",
         "rxjs-hooks": "^0.5.1",
-        "typescript": "3.4.5"
+        "typescript": "3.7.3"
     },
     "scripts": {
         "reset-config": "node script/reset-config.js",
