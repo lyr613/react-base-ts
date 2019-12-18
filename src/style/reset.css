@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    width: 100vw;
+    height: 100vh;
+    font-size: 20px;
+    font-family: 'source-sans-pro', 'pingfang sc', 黑体;
+    user-select: none;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+h6 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 20px;
+}
+h4 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 28px;
+}
+h2 {
+    font-size: 32px;
+}
+textarea {
+    font-family: inherit;
+}
+
+::-webkit-scrollbar {
+    width: 0.3vw;
+    height: 1vh;
+    background-color: rgba(255, 255, 255, 0.253);
+}
+::-webkit-scrollbar-thumb {
+    /* border-radius: 0.3vw; */
+    background-color: rgb(255, 255, 255);
+    background-color: rgba(12, 248, 177, 0.452);
+}
