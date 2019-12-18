@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-const file_path = 'public/setting/api.js'
+const file_path = 'public/scrap/config.js'
 
 module.exports = {
     /**
