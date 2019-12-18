@@ -1,4 +1,3 @@
-const os = require(`child_process`).execSync
 const dos = require('../js-util/do-shell')
 
 const util_api = require('../js-util/rewrite-host')
