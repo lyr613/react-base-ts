@@ -25,7 +25,7 @@ function build_apijs(host = 'SERVER_HOST') {
         window.SHRED = {}
     }
 
-    const o = {
+    var o = {
         // xxx.xxx.xxx.xxx:xx
         host: '${host}', 
     }
