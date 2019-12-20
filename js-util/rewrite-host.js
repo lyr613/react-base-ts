@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-const file_path = 'public/scrap/config.js'
+const file_path = 'public/shred/config.js'
 
 module.exports = {
     /**
@@ -21,8 +21,8 @@ module.exports = {
 function build_apijs(host = 'SERVER_HOST') {
     return `
 ;(function() {
-    if (!window.SCRAP) {
-        window.SCRAP = {}
+    if (!window.SHRED) {
+        window.SHRED = {}
     }
 
     const o = {
@@ -30,7 +30,7 @@ function build_apijs(host = 'SERVER_HOST') {
         host: '${host}', 
     }
 
-    Object.assign(window.SCRAP, o)
+    Object.assign(window.SHRED, o)
 })()
     `
 }
