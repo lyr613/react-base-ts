@@ -1,11 +1,12 @@
 ;(function() {
-    if (!window.SCRAP) {
-        window.SCRAP = {}
+    if (!window.SHRED) {
+        window.SHRED = {}
     }
 
-    var opt = {
+    const o = {
+        // xxx.xxx.xxx.xxx:xx
         host: 'SERVER_HOST',
     }
 
-    Object.assign(window.SCRAP, opt)
+    Object.assign(window.SHRED, o)
 })()
