@@ -1,4 +1,3 @@
-const os = require(`child_process`).execSync
 const dos = require('../js-util/do-shell')
 
 const util_api = require('../js-util/rewrite-host')
@@ -25,11 +24,11 @@ function main() {
 function build() {
     dos.do_shell(`yarn build`)
     dos.do_shell(`ren build ${project}`)
-    dos.do_shell_try(`ssh root@${ip} "cd /data/srsrecord && rm -rf ${project}"`)
 }
 
 /** 上传 */
 function move() {
+    dos.do_shell_try(`ssh root@${ip} "cd /data/srsrecord && rm -rf ${project}"`)
     dos.do_shell(`scp -r ${project} root@${ip}:/data/srsrecord`)
 }
 
