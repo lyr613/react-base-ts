@@ -1,4 +1,4 @@
-export function get_host() {
+export function host() {
     /** 第一个开发用, 最后一个发布用 */
     const hosts = [
         '172.16.200.56:50001',
@@ -35,10 +35,10 @@ export function get_host() {
  * @param rest 剩余地址
  */
 export function build_url(rest: string) {
-    return `http://${get_host()}/services/api/bs/${rest}`
+    return `http://${host()}/services/api/bs/${rest}`
 }
 
 /** 构造文件地址 */
 export function build_file_url(rest: string) {
-    return `http://${get_host()}/services/api/bs/${rest}`
+    return `http://${host()}/services/api/bs/${rest}`
 }
