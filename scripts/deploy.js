@@ -1,7 +1,8 @@
-const os = require(`child_process`).execSync
 const dos = require('../js-util/do-shell')
-
 const util_api = require('../js-util/rewrite-host')
+const fs = require('fs')
+const path = require('path')
+const io = require('../js-util/io')
 
 /** 路径前缀 */
 const project = `react-project`
@@ -24,17 +25,19 @@ function main() {
 /** 打包 */
 function build() {
     dos.do_shell(`yarn build`)
-    dos.do_shell(`ren build ${project}`)
-    dos.do_shell_try(`ssh root@${ip} "cd /data/srsrecord && rm -rf ${project}"`)
+    const root = path.resolve('.')
+    fs.renameSync(path.resolve(root, 'build'), path.resolve(root, project))
 }
 
 /** 上传 */
 function move() {
+    dos.do_shell_try(`ssh root@${ip} "cd /data/srsrecord && rm -rf ${project}"`)
     dos.do_shell(`scp -r ${project} root@${ip}:/data/srsrecord`)
 }
 
 /** 最后效果 */
 function effect() {
-    dos.do_shell(`rmdir /s/q ${project}`)
+    const dir = path.resolve('.', project)
+    io.rm_dir(dir)
     dos.do_shell_try(`explorer http://${ip}/${project}/`)
 }

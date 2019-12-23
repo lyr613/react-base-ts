@@ -25,7 +25,8 @@
     "scripts": {
         "start": "react-app-rewired start",
         "build": "react-app-rewired build",
-        "test": "react-scripts test"
+        "test": "react-scripts test",
+        "deploy": "node ./scripts/deploy.js"
     },
     "browserslist": {
         "production": [
@@ -46,7 +47,11 @@
         }
     },
     "lint-staged": {
-        "*.{js,jsx,json,ts,tsx,css,scss}": [
+        "src/*.{js,jsx,json,ts,tsx,css,scss}": [
+            "prettier --write",
+            "git add"
+        ],
+        "*.{js,ts}": [
             "prettier --write",
             "git add"
         ]

@@ -20,7 +20,7 @@ export function host() {
         return stro_set
     }
     // 外部js配置
-    const win_set = (window as any).SCRAP?.host
+    const win_set = (window as any).SHRED?.host ?? 'SERVER_HOST'
     if (win_set !== 'SERVER_HOST') {
         return win_set
     }
