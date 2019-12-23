@@ -11,9 +11,13 @@ const o = {
     },
     /** 非同步 */
     do_shell_with_log(s) {
-        const c = cp.exec(s)
-        c.stdout.on('data', (msg) => {
-            console.log(msg)
+        return new Promise((res) => {
+            const c = cp.exec(s, () => {
+                res()
+            })
+            c.stdout.on('data', (msg) => {
+                console.log(msg)
+            })
         })
     },
 }

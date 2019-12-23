@@ -12,10 +12,10 @@ const ip = `172.16.200.${service}`
 
 main()
 
-function main() {
+async function main() {
     util_api.update_host(`${ip}:50001`)
 
-    build()
+    await build()
     move()
     effect()
 
@@ -23,8 +23,8 @@ function main() {
 }
 
 /** 打包 */
-function build() {
-    dos.do_shell(`yarn build`)
+async function build() {
+    await dos.do_shell_with_log(`yarn build`)
     const root = path.resolve('.')
     fs.renameSync(path.resolve(root, 'build'), path.resolve(root, project))
 }

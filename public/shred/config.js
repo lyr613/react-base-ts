@@ -3,9 +3,9 @@
         window.SHRED = {}
     }
 
-    const o = {
+    var o = {
         // xxx.xxx.xxx.xxx:xx
-        host: 'SERVER_HOST',
+        host: '172.16.200.56:50001',
     }
 
     Object.assign(window.SHRED, o)
