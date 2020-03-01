@@ -1,10 +1,10 @@
 import React from 'react'
-import TTT from './arena/t'
+import Doc from './arena/doc'
 
 function App() {
     return (
         <div className="App">
-            <TTT />
+            <Doc />
         </div>
     )
 }
