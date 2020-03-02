@@ -1,10 +1,13 @@
 /** 用户 */
 interface user {
     id: string
-    age: int
+    /** 用户名 */
+    name: string
+    age?: int
     father?: user
     mother?: user
     children: user[]
+    /** 手机号 */
     mobel?: int
     /** 硬币数 */
     coin: int
@@ -13,4 +16,14 @@ interface user {
     gender: 0 | 1 | 2
 }
 
-export const user_list = [{}]
+/** 用户列表 */
+export const user_list: user[] = [
+    {
+        id: 'qwer',
+        name: '秋无衣',
+        children: [],
+        coin: 2,
+        level: 5,
+        gender: 1,
+    },
+]
