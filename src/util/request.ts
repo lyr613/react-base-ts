@@ -17,7 +17,6 @@ export function rxajax_base(url: string, method: method, body?: any): Observable
         method,
         headers: {
             'Content-Type': 'application/json',
-            // Authorization: 'Bearer ' + localStorage.getItem('token'),
         },
         withCredentials: false, // 携带cookie
         body,
@@ -33,35 +32,23 @@ export function rxajax_base(url: string, method: method, body?: any): Observable
  * @param method
  * @param body {k:v} get会自动转为url
  */
-export function rxajax(url$: Observable<string>, method: method, body?: any): Observable<any> {
-    return url$
-        .pipe(switchMap((url) => rxajax_base(url, method, body)))
-        .pipe
-        // 这里可以做一些统一处理
-        ()
+export function rxajax<T = any>(url$: Observable<string>, method: method, body?: any): Observable<T> {
+    return (
+        url$
+            .pipe(switchMap((url) => rxajax_base(url, method, body)))
+            // 这里可以做一些统一处理
+            .pipe()
+    )
 }
 
 export function default_host(): string {
     /** 第一个开发用, 最后一个发布用 */
-    const hosts = [
-        '172.16.200.157:50001',
-        '112.6.94.187:50001',
-        '172.16.200.155:51001',
-        '112.6.94.185:51001',
-        '172.16.200.56:50001',
-        '172.16.200.57:50001',
-        '172.16.200.56:50001',
-        '172.16.200.56:50001',
-        '172.16.200.56:50001',
-        '172.16.200.56:50001',
-        '223.80.105.202:50001',
-        '112.6.94.185:50001',
-        '112.6.94.187:50001',
-    ]
+    const hosts = ['localhost:8080']
     const node = process.env.NODE_ENV
     if (node === 'development') {
         // 开发
-        return hosts[0]
+        // return hosts[0]
+        return 'cas-playbook-dev.cas-air.cn/app'
     }
     const hand_host = window?.SETTING?.host ?? 'SERVER_HOST'
     if (hand_host !== 'SERVER_HOST') {
@@ -73,10 +60,16 @@ export function default_host(): string {
 }
 
 /** 构造url
- * @param rest_url 可以省略api/bs.
+ * @param rest_url
+ * @param query 查询参数, 拼接到url最后
  *  如果以api/public开头, 可以正确获取地址拼接
  */
-export function mkurl(rest_url: string) {
+export function mkurl(rest_url: string, query?: Param) {
+    if (query) {
+        const sq = qs.stringify(query)
+        const brige = /\?/.test(rest_url) ? '&' : '?'
+        rest_url += brige + sq
+    }
     return host$.pipe(
         map((host) => {
             return `http://${host}/${rest_url}`
