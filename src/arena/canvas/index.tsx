@@ -41,8 +41,8 @@ export default function CanvasDraw() {
                 ),
 
                 map((arr) => {
-                    const step = (360 / (arr.length || 1)) | 0
-                    const colors = Array.from({ length: step }, (_, i) => `hsl(${i * step}, 100%, 38%)`)
+                    const step = Math.round(360 / (arr.length || 1))
+                    const colors = Array.from({ length: arr.length }, (_, i) => `hsl(${i * step}, 100%, 38%)`)
                     const graphs = arr.map((pts, i) => {
                         const clr = colors[i]
                         const p = new Path2D()
