@@ -21,19 +21,25 @@ export default function CanvasDraw() {
         const stop$ = leave$.pipe(merge(up$))
         const ob = start$
             .pipe(
-                concatMap(() => move$.pipe(takeUntil(stop$), map(_get_layerxy))),
-                scan(
-                    (arr, next) => {
-                        const last = arr.slice(-1)[0]
-                        if (last.length > 50) {
-                            const nl = [last.slice(-1)[0], next]
-                            return [...arr, nl]
-                        }
-                        last.push(next)
-                        return [...arr]
-                    },
-                    [[]] as pt[][],
+                concatMap(() =>
+                    move$.pipe(
+                        takeUntil(stop$),
+                        map(_get_layerxy),
+                        scan(
+                            (arr, next) => {
+                                const last = arr.slice(-1)[0]
+                                if (last.length > 50) {
+                                    const nl = [last.slice(-1)[0], next]
+                                    return [...arr, nl]
+                                }
+                                last.push(next)
+                                return [...arr]
+                            },
+                            [[]] as pt[][],
+                        ),
+                    ),
                 ),
+
                 map((arr) => {
                     const step = (360 / (arr.length || 1)) | 0
                     const colors = Array.from({ length: step }, (_, i) => `hsl(${i * step}, 100%, 38%)`)
