@@ -56,6 +56,9 @@ export default function CanvasDraw() {
                     cns.stroke(g.p)
                 })
             })
+        return () => {
+            ob.unsubscribe()
+        }
     }, [])
     return (
         <div className={css(s.root)}>
