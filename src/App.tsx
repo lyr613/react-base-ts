@@ -21,6 +21,6 @@ export default App
 
 function Empty() {
     const p = useHistory()
-    p.push('canvas')
+    p.push('home')
     return null
 }
