@@ -1,15 +1,24 @@
 import React from 'react'
-import Doc from './arena/doc'
-import { Route, HashRouter } from 'react-router-dom'
+import { Route, HashRouter, useHistory, Switch } from 'react-router-dom'
+import Home from './arena/home'
 
 function App() {
     return (
         <div className="App">
             <HashRouter>
-                <Route path="/" component={Doc} />
+                <Switch>
+                    <Route path="/home" component={Home} />
+                    <Route component={Empty} />
+                </Switch>
             </HashRouter>
         </div>
     )
 }
 
 export default App
+
+function Empty() {
+    const p = useHistory()
+    p.push('home')
+    return null
+}
