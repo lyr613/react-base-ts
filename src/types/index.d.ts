@@ -1,5 +1,7 @@
-declare type int = number
-declare type float = number
+declare global {
+    type int = number
+    type float = number
+}
 
 declare interface Window {
     /** 配置文件 */
