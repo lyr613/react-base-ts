@@ -30,10 +30,11 @@ export default function CanvasDraw() {
                                 const last = arr.slice(-1)[0]
                                 if (last.length > 10) {
                                     const nl = [last.slice(-1)[0], next]
-                                    return [...arr, nl]
+                                    arr.push(nl)
+                                } else {
+                                    last.push(next)
                                 }
-                                last.push(next)
-                                return [...arr]
+                                return arr
                             },
                             [[]] as pt[][],
                         ),
