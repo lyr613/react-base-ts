@@ -72,7 +72,10 @@
         "test": "node scripts/test.js"
     },
     "eslintConfig": {
-        "extends": "react-app"
+        "extends": "react-app",
+        "rules": {
+            "@typescript-eslint/no-unused-vars": "off"
+        }
     },
     "browserslist": {
         "production": [
@@ -140,5 +143,29 @@
         "presets": [
             "react-app"
         ]
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,ts,tsx,json,css,scss}": [
+            "prettier --write",
+            "git add"
+        ]
+    },
+    "prettier": {
+        "printWidth": 120,
+        "semi": false,
+        "tabWidth": 4,
+        "trailingComma": "all",
+        "singleQuote": true,
+        "arrowParens": "always"
+    },
+    "devDependencies": {
+        "husky": "^4.2.5",
+        "lint-staged": "^10.2.11",
+        "prettier": "^2.0.5"
     }
 }
